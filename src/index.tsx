@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { StrictMode, CSSProperties } from 'react';
+import { StrictMode, CSSProperties, useState } from 'react';
 import clsx from 'clsx';
 
 import { Article } from './components/article/Article';
@@ -13,19 +13,26 @@ const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
+	const [settings, setSettings] = useState({
+		fontFamily: defaultArticleState.fontFamilyOption.value,
+		fontSize: defaultArticleState.fontSizeOption.value,
+		fontColor: defaultArticleState.fontColor.value,
+		containerWidth: defaultArticleState.contentWidth.value,
+		bgColor: defaultArticleState.backgroundColor.value,
+	});
 	return (
 		<main
 			className={clsx(styles.main)}
 			style={
 				{
-					'--font-family': defaultArticleState.fontFamilyOption.value,
-					'--font-size': defaultArticleState.fontSizeOption.value,
-					'--font-color': defaultArticleState.fontColor.value,
-					'--container-width': defaultArticleState.contentWidth.value,
-					'--bg-color': defaultArticleState.backgroundColor.value,
+					'--font-family': settings.fontFamily,
+					'--font-size': settings.fontSize,
+					'--font-color': settings.fontColor,
+					'--container-width': settings.containerWidth,
+					'--bg-color': settings.bgColor,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm />
+			<ArticleParamsForm applyingSettings={setSettings} />
 			<Article />
 		</main>
 	);
